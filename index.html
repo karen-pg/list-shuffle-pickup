@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div id="container">
+      <div class="addText">
+        <input
+          type="text"
+          id="text"
+          autocomplete="off"
+          placeholder="ここに入力"
+        />
+        <button id="addBtn">追加</button>
+        <button id="all-remove">全て削除</button>
+        <p id="sum">0</p>
+      </div>
+      <div id="list-container">
+        <div class="section">
+          <div class="option">
+            <p>リスト</p>
+          </div>
+          <div id="task-wrapper" class="wrapper"></div>
+        </div>
+        <div class="section">
+          <div class="option">
+            <p>シャッフルしたリスト</p>
+          </div>
+          <div id="shuffle-wrapper" class="wrapper"></div>
+        </div>
+        <div class="section">
+          <div class="option">
+            <p>ピックアップしたリスト</p>
+            <br />
+            <button id="pickup-reset">リセット</button>
+            <button id="pickup-shuffle">シャッフル</button>
+            <button id="remove-from-list">リストから削除</button>
+          </div>
+          <div id="pickup-wrapper" class="wrapper"></div>
+        </div>
+      </div>
+      <hr />
+      <div class="option">
+        <button id="list-shuffle">シャッフル</button>
+      </div>
+      <div class="option">
+        <br />
+        <label for="pickup-text">絞り込む数を入力(半角数字)：</label>
+        <input id="pickup-text" type="text" maxlength="2" placeholder="0" />
+        <button id="pickup">ピックアップ</button>
+        <br />
+        <input
+          type="checkbox"
+          name="pickup-checkbox"
+          id="pickup-checkbox"
+          disabled
+        />
+        <label for="pickup-checkbox">ピックアップしたリストを絞り込む</label>
+      </div>
+      <div class="option">
+        <button id="reset">リセット</button>
+        <label for="reset">(削除済みのリストは復元しない)</label>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
