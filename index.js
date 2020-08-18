@@ -41,29 +41,27 @@ function shuffle(array, src, pickNum) {
 
 // ピックアップ発火準備
 const pickupWrapper = document.querySelector("#pickup-wrapper");
-function listPickup(randomArray, pickNum) {
+const listPickup = (randomArray, pickNum) => {
   const _randomArray = randomArray;
   pickupLists.splice(0);
   for (let i = pickNum - 1; i >= 0; i--) {
     const r = randomNum(_randomArray);
-    if (!pickupLists.includes(_randomArray[r])) {
-      pickupLists.push(_randomArray[r]);
-    } else {
-      i++;
-    }
+    !pickupLists.includes(_randomArray[r])
+      ? pickupLists.push(_randomArray[r])
+      : i++;
   }
   pickupLists.sort((a, b) => {
     return a - b;
   });
   listInsert(pickupLists, pickupWrapper, "pk");
-}
+};
 
 // 発火（エレメント生成・チェックボックス切り替え）
 const text = document.querySelector("#text");
-function elementPrepare(list) {
+const elementPrepare = (list) => {
   listInsert(list, listWrapper);
   text.value = "";
-}
+};
 
 // ピックアップされたリストを生成
 const sum = document.querySelector("#sum");
@@ -72,11 +70,9 @@ function listInsert(picklist, wrapper, cls = "li") {
   picklist.forEach((list) => {
     return (wrapper.firstChild.innerHTML += `<li>${list}<input type="button" class="removeBtn ${cls}" onclick="listRemove(this)" value="削除"></input></li>`);
   });
-  if (pickupLists.length) {
-    sum.innerHTML = `${pickupLists.length}/${lists.length}`;
-  } else {
-    sum.innerHTML = lists.length;
-  }
+  pickupLists.length
+    ? (sum.innerHTML = `${pickupLists.length}/${lists.length}`)
+    : (sum.innerHTML = lists.length);
   usefulCheckbox(pickupLists);
 }
 
@@ -148,8 +144,7 @@ const reset = document.querySelector("#reset");
 const pickupReset = document.querySelector("#pickup-reset");
 reset.addEventListener("click", () => {
   pickupLists.splice(0);
-  pickupText.value = "";
-  shuffleWrapper.innerHTML = "";
+  pickupText.value = shuffleWrapper.innerHTML = "";
   commonFn();
 });
 pickupReset.addEventListener("click", () => {
@@ -194,14 +189,20 @@ const allRemove = document.querySelector("#all-remove");
 allRemove.addEventListener("click", () => {
   lists.splice(0);
   pickupLists.splice(0);
-  pickupText.value = "";
-  shuffleWrapper.innerHTML = "";
+  pickupText.value = shuffleWrapper.innerHTML = "";
   commonFn();
 });
 
-function commonFn() {
+const commonFn = () => {
   listInsert(lists, listWrapper);
   listInsert(pickupLists, pickupWrapper, "pk");
   sum.innerHTML = lists.length;
   usefulCheckbox(pickupLists);
+};
+
+// service worker
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/sw.js").then((reg) => {
+    console.log("Service worker registered.", reg);
+  });
 }

@@ -1,0 +1,16 @@
+{
+  "name": "シャッフル&ピックアップ",
+  "short_name": "shuffle&pickup",
+  "start_url": " https://karen-pg.github.io/list-shuffle-pickup/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff",
+  "theme_color": "#0aa574",
+  "icons": [
+    {
+      "src": "./154751.jpg",
+      "type": "image/jpg",
+      "sizes": "512x512"
+    }
+  ]
+}
