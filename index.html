@@ -7,10 +7,18 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black" />
     <meta name="apple-mobile-web-app-title" content="shuffle&pickup" />
-    <link rel="apple-touch-icon" href="images/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" href="154751.jpg" />
     <title>シャッフル&ピックアップ</title>
-    <link rel="manifest" href="/manifest.json" />
+    <link rel="manifest" href="manifest.json" />
     <link rel="stylesheet" href="style.css" />
+    <script>
+      // service worker
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("sw.js").then((reg) => {
+          console.log("Service worker registered.", reg);
+        });
+      }
+    </script>
   </head>
   <body>
     <div id="container">
@@ -72,6 +80,6 @@
         <label for="reset">(削除済みのリストは復元しない)</label>
       </div>
     </div>
-    <script src="index.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>

@@ -199,10 +199,3 @@ const commonFn = () => {
   sum.innerHTML = lists.length;
   usefulCheckbox(pickupLists);
 };
-
-// service worker
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("/sw.js").then((reg) => {
-    console.log("Service worker registered.", reg);
-  });
-}
