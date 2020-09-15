@@ -1,85 +1,122 @@
 <!DOCTYPE html>
 <html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0aa574" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="apple-mobile-web-app-title" content="shuffle&pickup" />
-    <link rel="apple-touch-icon" href="154751.jpg" />
-    <title>シャッフル&ピックアップ</title>
-    <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" href="style.css" />
-    <script>
-      // service worker
-      if ("serviceWorker" in navigator) {
-        navigator.serviceWorker.register("sw.js").then((reg) => {
-          console.log("Service worker registered.", reg);
-        });
-      }
-    </script>
-  </head>
-  <body>
-    <div id="container">
-      <div class="addText">
-        <input
-          type="text"
-          id="text"
-          autocomplete="off"
-          placeholder="ここに入力"
-        />
-        <button id="addBtn">追加</button>
-        <button id="all-remove">全て削除</button>
-        <p id="sum">0</p>
-      </div>
-      <div id="list-container">
-        <div class="section">
-          <div class="option">
-            <p>リスト</p>
-          </div>
-          <div id="task-wrapper" class="wrapper"></div>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0aa574" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="apple-mobile-web-app-title" content="shuffle&pickup" />
+  <link rel="apple-touch-icon" href="154751.jpg" />
+  <link rel="icon" href="154751.jpg" />
+  <title>シャッフル&ピックアップ</title>
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css"
+    integrity="sha384-HzLeBuhoNPvSl5KYnjx0BT+WB0QEEqLprO+NBkkk5gbc67FTaL7XIGa2w1L0Xbgc" crossorigin="anonymous">
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/767less.css" media="screen and (max-width:767px)" />
+  <script>
+    // service worker
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").then((reg) => {
+        console.log("Service worker registered.", reg);
+      });
+    }
+  </script>
+</head>
+
+<body>
+  <button id="show-btn" class="list-icon pointer"><i class="fa fa-list fa-2x"></i>
+  </button>
+  <div id="main">
+    <div id="list-container" class="container">
+      <div class="add-list section">
+        <div class="add-status">
+          <input type="text" id="text" autocomplete="off" placeholder="リストを入力" /><br>
+          <label for="level">レベル：</label>
+          <select name="level" id="level" class="pointer">
+            <option value="0">指定しない</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
         </div>
-        <div class="section">
+        <div class="add-btn">
+          <button id="addBtn" class="pointer">＋</button>
+        </div>
+      </div>
+      <!-- <hr> -->
+      <div class="show-list section">
+        <div class="option">
+          <div>
+            <p>リスト：</p>
+            <p id="sum">0</p>
+          </div>
+          <button id="all-remove" class="pointer">全て削除</button>
+        </div>
+      </div>
+      <div class="show-list" style="flex: 1; overflow: auto;">
+        <div id="task-wrapper" class="wrapper">
+          <p class="list-attention">リストが登録されていません。</p>
+        </div>
+      </div>
+      <div class="close-wrapper">
+        <button id="close-btn" class="pointer">× 閉じる</button>
+      </div>
+    </div>
+    <hr noshade>
+    <div class="tab-container container">
+      <input type="radio" name="tab-btn" id="shuffle-tab" checked>
+      <input type="radio" name="tab-btn" id="pickup-tab">
+      <input type="radio" name="tab-btn" id="grouping-tab">
+      <div class="tab-area">
+        <label class="shuffle-tab-label pointer" for="shuffle-tab">シャッフル</label>
+        <label class="pickup-tab-label pointer" for="pickup-tab">ピックアップ</label>
+        <label class="grouping-tab-label pointer" for="grouping-tab">グループ分け</label>
+      </div>
+      <div class="panel-area">
+        <div class="section shuffle">
           <div class="option">
-            <p>シャッフルしたリスト</p>
+            <button id="list-shuffle" class="pointer">シャッフル</button>
           </div>
           <div id="shuffle-wrapper" class="wrapper"></div>
         </div>
-        <div class="section">
+        <div class="section pickup">
           <div class="option">
-            <p>ピックアップしたリスト</p>
+            <label for="pickup-text">ピックアップする数(半角数字)：</label>
+            <input id="pickup-text" type="text" value="1" maxlength="2" placeholder="0" />
+            <button id="pickup" class="pointer">ピックアップ</button>
             <br />
-            <button id="pickup-reset">リセット</button>
-            <button id="pickup-shuffle">シャッフル</button>
-            <button id="remove-from-list">リストから削除</button>
+            <input type="checkbox" name="pickup-checkbox" id="pickup-checkbox" class="pointer" disabled />
+            <label for="pickup-checkbox">このリストからピックアップする</label>
+            <br />
+            <!-- <button id="pickup-reset" class="pointer">リセット</button>
+            <button id="pickup-shuffle" class="pointer">シャッフル</button> -->
+            <button id="remove-from-list" class="pointer">リストから削除</button>
           </div>
           <div id="pickup-wrapper" class="wrapper"></div>
         </div>
+        <div class="section grouping">
+          <div class="option">
+            <label for="group-num">グループの数(半角数字)：</label>
+            <input id="group-num" type="text" value="2" maxlength="2" placeholder="0">
+            <button id="create-group-btn" class="pointer" />割り振る </button>
+          </div>
+          <div id="group-wrapper" class="wrapper"></div>
+        </div>
       </div>
-      <hr />
-      <div class="option">
-        <button id="list-shuffle">シャッフル</button>
-      </div>
-      <div class="option">
-        <br />
-        <label for="pickup-text">絞り込む数を入力(半角数字)：</label>
-        <input id="pickup-text" type="text" maxlength="2" placeholder="0" />
-        <button id="pickup">ピックアップ</button>
-        <br />
-        <input
-          type="checkbox"
-          name="pickup-checkbox"
-          id="pickup-checkbox"
-          disabled
-        />
-        <label for="pickup-checkbox">ピックアップしたリストを絞り込む</label>
-      </div>
+    </div>
+    <!-- <hr />
       <div class="option">
         <button id="reset">リセット</button>
         <label for="reset">(削除済みのリストは復元しない)</label>
-      </div>
-    </div>
-    <script src="main.js"></script>
-  </body>
+      </div> -->
+  </div>
+  <script src="main.js"></script>
+  <!-- <script src="group.js"></script> -->
+</body>
+
 </html>
